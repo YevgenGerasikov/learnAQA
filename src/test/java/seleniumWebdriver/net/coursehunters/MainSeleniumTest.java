@@ -16,7 +16,7 @@ class MainSeleniumTest {
 
     @BeforeAll
     static void preparations() {
-        //указываем расположение драйвера
+        //set Chrome driver location path
         System.setProperty("webdriver.chrome.driver", "D:\\[IDEA]\\Projects\\mySeleniumCode\\drivers\\chromedriver.exe");
     }
 
@@ -28,9 +28,9 @@ class MainSeleniumTest {
 
     @Test
     void myFirstTest() {
-//        переход на страницу
+//        Go to page
         chromeDriver.navigate().to("https://www.google.com");
-//        находим искомый елемент на странице и присваиваем инициализируем обьект класса WebElement
+//        находим искомый елемент на странице и инициализируем обьект класса WebElement
         WebElement searchBox = chromeDriver.findElement(By.name("q"));
 //        передаем значение пользовательского ввода функции .sendKeys()
         searchBox.sendKeys("Selenium webdriver");
