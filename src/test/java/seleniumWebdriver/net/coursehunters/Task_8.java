@@ -1,42 +1,19 @@
 package seleniumWebdriver.net.coursehunters;
 
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.List;
 
-public class Task_8 {
+public class Task_8 extends MainSeleniumTest {
     /*Задание 8. Сделайте сценарий, проверяющий наличие стикеров у товаров
     Сделайте сценарий, проверяющий наличие стикеров у всех товаров в учебном приложении litecart на главной странице.
     Стикеры -- это полоски в левом верхнем углу изображения товара, на которых написано New или Sale или что-нибудь другое.
     Сценарий должен проверять, что у каждого товара имеется ровно один стикер.
     */
-    private WebDriver chromeDriver;
-    private WebDriverWait wait;
-
-    @BeforeAll
-    static void preparations() {
-        //set Chrome driver location path
-        System.setProperty("webdriver.chrome.driver", "D:\\[IDEA]\\Projects\\mySeleniumCode\\drivers\\chromedriver.exe");
-    }
-
-    @BeforeEach
-    void initialization() {
-        chromeDriver = new ChromeDriver();
-        wait = new WebDriverWait(chromeDriver, 5);
-    }
-
-    @AfterEach
-//    close driver
-    void closeAll() {
-        chromeDriver.quit();
-        chromeDriver = null;
-    }
 
     @Test
 //    Use search inside the element
