@@ -1,14 +1,13 @@
 package seleniumWebdriver.net.coursehunters;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 
@@ -45,14 +44,14 @@ class MainSeleniumTest {
         WebElement searchBox = chromeDriver.findElement(By.name("q"));
 //        передаем значение пользовательского ввода функции .sendKeys()
         searchBox.sendKeys("Selenium webdriver");
-//        находим значение кнопки поиска на странице по имени елемента и эмулируем её нажатие используя функцию .click()
-        chromeDriver.findElement(By.cssSelector("div.FPdoLc.VlcLAe input.gNO89b[name=btnK]")).click();
+//        эмулируем нажатие Enter
+        searchBox.sendKeys(Keys.ENTER);
 //        ожидаем пока заголовок страницы (title) не изменит название согласно условиям поиска
         wait.until(ExpectedConditions.titleContains("Selenium webdriver - Поиск в Google"));
     }
 
     @Test
-    void correctLoginToAdminPanel() {
+    void loginToAdminPanel() {
 //        Go to page
         chromeDriver.navigate().to("http://localhost/litecart/admin");
 //        wait while page Title will contains search result
@@ -69,8 +68,21 @@ class MainSeleniumTest {
         password.sendKeys("admin");
 //        find and click on the "Login" button
         chromeDriver.findElement(By.cssSelector("#box-login > form > div.footer > button[name=login]")).click();
-//        wait for admin page menu content
-        wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector("div#sidebar")));
-//        find all menu items and add them to the Java list object
+//        wait for admin page successful login alert
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("alert")));
+        Assertions.assertTrue(chromeDriver.findElement(By.className("alert-success")).getText().contains("You are now logged in as admin"));
+    }
+
+    //    method for find and add data (such as text) to the input field
+    public void fillDataField(String xpathSelector, String value) {
+        WebElement inputFieldElement = chromeDriver.findElement(By.xpath(xpathSelector));
+        inputFieldElement.click();
+        inputFieldElement.clear();
+        inputFieldElement.sendKeys(value);
+    }
+
+    //    method for select item from drop down list
+    void selectFromDropDownList(String listLabel, String selectedItem) {
+        new Select(chromeDriver.findElement(By.xpath("//label[text()='" + listLabel + "']/following-sibling::*//select"))).selectByVisibleText(selectedItem);
     }
 }

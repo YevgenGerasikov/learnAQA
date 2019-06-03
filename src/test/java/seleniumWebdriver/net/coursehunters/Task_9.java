@@ -6,8 +6,10 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 public class Task_9 extends MainSeleniumTest {
     /*Сделайте сценарии, которые проверяют сортировку стран и геозон (штатов) в учебном приложении litecart.
@@ -22,7 +24,7 @@ public class Task_9 extends MainSeleniumTest {
 
     @Test
     void countriesTest() {
-        correctLoginToAdminPanel();
+        loginToAdminPanel();
         //        Go to page
         chromeDriver.navigate().to("http://localhost/litecart/admin/?app=countries&doc=countries");
 //        wait while page Title will contains search result
@@ -62,7 +64,7 @@ public class Task_9 extends MainSeleniumTest {
 
     @Test
     void geoZonesTest() {
-        correctLoginToAdminPanel();
+        loginToAdminPanel();
         //        Go to page
         chromeDriver.navigate().to("http://localhost/litecart/admin/?app=geo_zones&doc=geo_zones");
 //        wait while page Title will contains search result

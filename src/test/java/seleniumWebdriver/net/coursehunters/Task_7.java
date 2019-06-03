@@ -17,7 +17,7 @@ public class Task_7 extends MainSeleniumTest {
 
     @Test
     void checkMenuItems() {
-        correctLoginToAdminPanel();
+        loginToAdminPanel();
 //        find all menu items and add them to the Java list object
         List<WebElement> menuList = chromeDriver.findElements(By.cssSelector("ul#box-apps-menu li"));
 //        create list of menu items id's
