@@ -6,9 +6,12 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.util.Set;
 
 
 class MainSeleniumTest {
@@ -74,7 +77,7 @@ class MainSeleniumTest {
     }
 
     //    method for find and add data (such as text) to the input field
-    public void fillDataField(String xpathSelector, String value) {
+    protected void fillDataField(String xpathSelector, String value) {
         WebElement inputFieldElement = chromeDriver.findElement(By.xpath(xpathSelector));
         inputFieldElement.click();
         inputFieldElement.clear();
@@ -82,7 +85,38 @@ class MainSeleniumTest {
     }
 
     //    method for select item from drop down list
-    void selectFromDropDownList(String listLabel, String selectedItem) {
+    protected void selectFromDropDownList(String listLabel, String selectedItem) {
         new Select(chromeDriver.findElement(By.xpath("//label[text()='" + listLabel + "']/following-sibling::*//select"))).selectByVisibleText(selectedItem);
+    }
+
+    //    method waits for a new window
+    protected ExpectedCondition<String> anyWindowOtherThan(Set<String> oldWindows) {
+        return new ExpectedCondition<String>() {
+            public String apply(WebDriver driver) {
+                Set<String> handles = driver.getWindowHandles();
+                handles.removeAll(oldWindows);
+                return handles.size() > 0 ? handles.iterator().next() : null;
+            }
+        };
+    }
+
+    //        check external windows links
+    protected void checkExternalWindow(String externalWindowLink) {
+//        get current window id
+        String currentWindowId = chromeDriver.getWindowHandle();
+//        get all windows id list
+        Set<String> allWindowsIdList = chromeDriver.getWindowHandles();
+//        click on the external window link
+        chromeDriver.findElement(By.xpath("//a[@href='" + externalWindowLink + "']")).click();
+//        wait for new window id
+        String newWindowId = wait.until(anyWindowOtherThan(allWindowsIdList));
+//        switch driver to new window
+        chromeDriver.switchTo().window(newWindowId);
+//        check new window
+        Assertions.assertNotEquals(currentWindowId, chromeDriver.getWindowHandle());
+//        close window
+        chromeDriver.close();
+//        switch driver to main window
+        chromeDriver.switchTo().window(currentWindowId);
     }
 }
